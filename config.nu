@@ -1,5 +1,5 @@
+source nu-themes/catppuccin-mocha.nu
 source ~/.zoxide.nu
-
 
 $env.config.show_banner = false
 $env.config.buffer_editor = "nvim"
@@ -52,19 +52,17 @@ def createSymbolicLink [servicePath: string] {
 }
 
 # Function to start npm synchronously
-def Start-Npm [ProjectPath: string] {
+def startNpm [ProjectPath: string] {
     echo $"Starting NPM in: ($ProjectPath)"
-    with-dir $ProjectPath {
-        run-external "npm" "start"
-    }
+    cd $ProjectPath
+    run-external "npm" "start"
 }
 
 # Function to start dotnet synchronously
-def Start-Dotnet [ApiPath: string] {
+def startDotnet [ApiPath: string] {
     echo $"Starting Dotnet in: ($ApiPath)"
-    with-dir $ApiPath {
-        run-external "dotnet" "run" "-lp" "https"
-    }
+    cd $ApiPath
+    run-external "dotnet" "run" "-lp" "https"
 }
 
 # Shared function: Open all project files (Solution + Frontend)
@@ -123,7 +121,7 @@ def startApp [frontendPath: string] {
         echo $"Directory does not exist: ($fullPath)"
         return
     }
-    Start-Npm $fullPath
+    startNpm $fullPath
 }
 
 def startApi [apiPath: string, setupFunction: closure] {
@@ -134,7 +132,7 @@ def startApi [apiPath: string, setupFunction: closure] {
         echo $"Directory does not exist: ($apiPath)"
         return
     }
-    Start-Dotnet $fullPath
+    startDotnet $fullPath
 }
 
 alias cd = z
@@ -156,9 +154,11 @@ def cd-to [target: string] {
     cd $resolved_path
 }
 
-def scoop [...args: string] {
-    run-external "pwsh" "-Command" scoop" ...$args
-}
+# def scoop [...args: string] {
+#     run-external "pwsh" "-Command" scoop" ...$args
+# }
 
-source nu-themes/catppuccin-mocha.nu
+
+use modules/sts.nu
+use modules/qlt.nu
 
