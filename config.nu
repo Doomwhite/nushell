@@ -162,3 +162,6 @@ def cd-to [target: string] {
 use modules/sts.nu
 use modules/qlt.nu
 
+mkdir ($nu.data-dir | path join "vendor/autoload")
+starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
+
