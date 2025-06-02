@@ -4,8 +4,17 @@ source ~/.zoxide.nu
 $env.config.show_banner = false
 $env.config.buffer_editor = "nvim"
 
+let default_path = "C:\\Users\\Cliente\\Documents\\Projects\\Envs"
+let work_path = "C:\\Users\\adinelson.bruhmuller\\Documents\\Projects\\Envs"
+
 # Define a shared environment path constant
-let ENV_PATH = "C:\\Users\\Cliente\\Documents\\Projects\\Envs"
+let possible_paths = [
+    $work_path,
+    $default_path
+]
+
+let ENV_PATH = ($possible_paths | where { |path| $path | path exists } | first | default $default_path)
+$env.ENV_PATH = $ENV_PATH
 
 # Shared function: Copy license file
 def copylicense [] {
